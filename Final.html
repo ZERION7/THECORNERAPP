@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curtain Quote App - Save Image Version</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root { --main: #2c3e50; --gold: #d4af37; --danger: #e74c3c; --green: #06C755; --bg: #f0f2f5; --accent: #34495e; }
+        body { font-family: 'Noto Sans Thai Looped', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .app-card { background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 120px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #f8f9fa; padding-bottom: 15px; }
+        .item-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; border-left: 5px solid var(--main); }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
+        .item-number { background: var(--main); color: white; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+        .room-name-top { flex: 1; margin-bottom: 0 !important; padding: 5px 10px !important; font-size: 14px !important; border-style: dashed !important; height: 32px; }
+        .btn-remove-x { background: #fff0f0; color: var(--danger); border: 1px solid #ffebeb; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; line-height: 1; }
+        .btn-remove-x:hover { background: var(--danger); color: white; transform: translateY(-2px); }
+        label { display: block; margin-bottom: 5px; font-weight: 700; color: var(--main); font-size: 13px; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1.5px solid #eee; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 16px; }
+        .row { display: flex; gap: 10px; margin-bottom: 5px; }
+        .row div { flex: 1; }
+        .size-entry { background: #f8f9fa; padding: 10px; border-radius: 10px; margin-bottom: 10px; position: relative; }
+        .btn-remove-size { position: absolute; right: -5px; top: -5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; }
+        .btn-add-set { background: none; border: 1px dashed var(--main); color: var(--main); width: 100%; padding: 8px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: bold; margin-bottom: 15px; transition: 0.2s; }
+        .btn-add-set:hover { background: #f0f2f5; }
+        .bottom-row { display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 10px; gap: 10px; }
+        .price-display { text-align: right; color: var(--gold); font-weight: bold; font-size: 15px; margin-top: 5px; }
+        .option-box-small { background: #fdfaf0; padding: 8px; border-radius: 8px; border: 1px dashed var(--gold); margin-top: 5px; display: flex; gap: 15px; }
+        .check-item { display: flex; align-items: center; font-size: 13px; cursor: pointer; }
+        .check-item input { width: 16px; height: 16px; margin-right: 6px; accent-color: var(--gold); margin-bottom: 0; }
+        .btn-add { width: 100%; padding: 15px; background: var(--main); color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .total-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); display: flex; justify-content: center; z-index: 100; }
+        .footer-content { width: 100%; max-width: 470px; display: flex; flex-direction: column; gap: 10px; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+        .btn-summary { width: 100%; padding: 18px; background: var(--gold); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 0; max-height: 85vh; overflow-y: auto; }
+        .summary-item { border-bottom: 1.5px solid #f0f0f0; padding: 15px 0; font-size: 14px; }
+        .summary-title { font-weight: bold; color: var(--main); font-size: 16px; display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+        .type-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; display: inline-block; color: white; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .summary-detail { display: flex; justify-content: space-between; color: #444; font-size: 13px; margin-top: 4px; border-left: 2px solid #eee; padding-left: 10px; }
+        .summary-total { font-size: 22px; font-weight: bold; color: var(--gold); text-align: center; margin-top: 20px; border-top: 2px solid var(--main); padding-top: 15px; }
+        
+        /* New Styles for Icon Button */
+        .summary-body { padding: 25px; background: white; position: relative; }
+        .btn-save-icon { position: absolute; top: 15px; right: 15px; background: var(--green); color: white; border: none; width: 35px; height: 35px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; transition: 0.2s; }
+        .btn-save-icon:active { transform: scale(0.9); }
+        .btn-group { padding: 15px 25px 25px; display: flex; flex-direction: column; gap: 10px; background: #fafafa; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .close-modal { width: 100%; padding: 12px; background: #eee; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: #666; }
+        .min-warning { color: var(--danger); font-size: 11px; display: block; margin-top: 2px; font-weight: bold; }
+        .input-error { border-color: var(--danger) !important; background-color: #fff6f6 !important; }
+        .hide-on-capture { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <h1 style="font-size: 24px; color: var(--main); margin: 0;">THE CORNER CURTAIN</h1>
+        <p style="font-size: 13px; color: #7f8c8d; margin: 5px 0 0;">โปรแกรมคำนวนราคาเบื้องต้น</p>
+    </div>
+    <div id="itemList"></div>
+    <button class="btn-add" onclick="addItem()">
+        <span style="font-size: 22px; line-height: 0;">+</span> เพิ่มรายการใหม่
+    </button>
+</div>
+
+<div class="total-bar">
+    <div class="footer-content">
+        <div class="price-row">
+            <span style="font-size: 14px; color: #7f8c8d;">ยอดรวมทั้งหมด:</span>
+            <span id="total-amount-show" style="font-size: 24px; color: var(--main); font-weight: bold;">0.-</span>
+        </div>
+        <button class="btn-summary" onclick="validateAndShowSummary()">ดูสรุปรายการทั้งหมด</button>
+    </div>
+</div>
+
+<div id="summaryModal" class="modal">
+    <div class="modal-content">
+        <div id="capture-area" class="summary-body">
+            <button class="btn-save-icon" onclick="saveImage()" title="บันทึกรูปภาพ">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </button>
+            <h2 style="text-align: center; color: var(--main); margin-top: 0; border-bottom: 2px solid var(--gold); padding-bottom: 10px;">สรุปรายการ</h2>
+            <div id="summaryList"></div>
+            <div id="summaryGrandTotal" class="summary-total"></div>
+        </div>
+        <div class="btn-group">
+            <button class="close-modal" onclick="closeModal()">ย้อนกลับ</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const curtainPrices = {
+        "ม่านตาไก่": { main: 1400, sheer: 1200, calc: "width", color: "#3498db" },
+        "ม่านจีบ": { main: 1600, sheer: 1400, calc: "width", color: "#9b59b6" },
+        "ม่านลอน": { main: 1800, sheer: 1600, calc: "width", color: "#2ecc71" },
+        "ม่านพับ": { main: 2000, sheer: 1800, calc: "width", color: "#1abc9c" },
+        "ม่านม้วน": { price: 1000, calc: "sqyard", min: 1.80, color: "#e67e22" },
+        "มู่ลี่ไม้": { price: 2190, calc: "sqyard", min: 1.50, color: "#8b4513" },
+        "มู่ลี่อลูมิเนียม": { price: 890, calc: "sqyard", min: 1.80, color: "#7f8c8d" },
+        "ฉากกั้นห้อง PVC": { price: 890, calc: "sqyard", min: 2.50, color: "#e74c3c" }
+    };
+
+    function addItem() {
+        const id = Date.now();
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-card';
+        itemDiv.id = `item-${id}`;
+        itemDiv.innerHTML = `
+            <div class="item-header">
+                <span class="item-number">รายการที่ </span>
+                <input type="text" class="room-name room-name-top" placeholder="ใส่ชื่อห้อง / หมายเหตุ">
+                <div class="btn-remove-x" onclick="removeItem('${id}')">×</div>
+            </div>
+            <label>ประเภทม่าน</label>
+            <select class="curtain-type" onchange="clearError(this); updateUIForType('${id}'); updatePrices();">
+                <option value="">เลือกประเภท...</option>
+                <option>ม่านตาไก่</option><option>ม่านจีบ</option>
+                <option>ม่านลอน</option><option>ม่านพับ</option>
+                <option>ม่านม้วน</option><option>มู่ลี่ไม้</option>
+                <option>มู่ลี่อลูมิเนียม</option><option>ฉากกั้นห้อง PVC</option>
+            </select>
+            <div id="size-container-${id}"></div>
+            <button class="btn-add-set" onclick="addSizeField('${id}')">+ เพิ่มชุดในรายการนี้</button>
+            <div class="bottom-row">
+                <div class="price-display">รวมรายการนี้: <span class="item-price-sum">0</span> บ.</div>
+            </div>
+        `;
+        document.getElementById('itemList').appendChild(itemDiv);
+        addSizeField(id);
+        updateNumbers();
+    }
+
+    function addSizeField(itemId) {
+        const container = document.getElementById(`size-container-${itemId}`);
+        const type = document.querySelector(`#item-${itemId} .curtain-type`).value;
+        const sizeId = Date.now() + Math.random();
+        const isFabric = type && curtainPrices[type].calc === "width";
+        const div = document.createElement('div');
+        div.className = 'size-entry';
+        div.id = `size-${sizeId}`;
+        div.innerHTML = `
+            ${container.children.length > 0 ? `<button class="btn-remove-size" onclick="this.parentElement.remove(); updatePrices();">×</button>` : ''}
+            <div class="row">
+                <div><label>กว้าง (ม.)</label><input type="text" class="w-val" placeholder="0.00" inputmode="decimal" oninput="clearError(this); updatePrices()"></div>
+                <div><label>สูง (ม.)</label><input type="text" class="h-val" placeholder="0.00" inputmode="decimal" oninput="clearError(this); updatePrices()"></div>
+            </div>
+            <div class="option-box-small" style="display: ${isFabric ? 'flex' : 'none'}">
+                <label class="check-item"><input type="checkbox" class="l1-val" onchange="updatePrices()"> ผ้าทึบ</label>
+                <label class="check-item"><input type="checkbox" class="l2-val" onchange="updatePrices()"> ผ้าโปร่ง</label>
+            </div>
+        `;
+        container.appendChild(div);
+    }
+
+    function updateUIForType(itemId) {
+        const type = document.querySelector(`#item-${itemId} .curtain-type`).value;
+        const isFabric = type && curtainPrices[type].calc === "width";
+        const options = document.querySelectorAll(`#item-${itemId} .option-box-small`);
+        options.forEach(opt => opt.style.display = isFabric ? 'flex' : 'none');
+    }
+
+    function clearError(el) { el.classList.remove('input-error'); }
+    function removeItem(id) { document.getElementById(`item-${id}`).remove(); updateNumbers(); updatePrices(); }
+    function updateNumbers() { document.querySelectorAll('.item-card').forEach((item, index) => { item.querySelector('.item-number').innerText = `รายการที่ ${index + 1}`; }); }
+
+    function updatePrices() {
+        let grandTotal = 0;
+        document.querySelectorAll('.item-card').forEach(item => {
+            const type = item.querySelector('.curtain-type').value;
+            let itemSum = 0;
+            if (curtainPrices[type]) {
+                const config = curtainPrices[type];
+                item.querySelectorAll('.size-entry').forEach(size => {
+                    let w = parseFloat(size.querySelector('.w-val').value) || 0;
+                    let h = parseFloat(size.querySelector('.h-val').value) || 0;
+                    const l1 = size.querySelector('.l1-val').checked;
+                    const l2 = size.querySelector('.l2-val').checked;
+                    if (type === "ฉากกั้นห้อง PVC") {
+                        if (w > 0 && w < 1.0) w = 1.0;
+                        if (h > 0) {
+                            if (h <= 2.0) h = 2.0;
+                            else h = Math.ceil((h - 2.0) / 0.20) * 0.20 + 2.0;
+                        }
+                    }
+                    if (config.calc === "width") {
+                        if (l1) itemSum += w * config.main;
+                        if (l2) itemSum += w * config.sheer;
+                    } else {
+                        let area = w * h * 1.2;
+                        if (area > 0 && area < config.min) area = config.min;
+                        itemSum += area * config.price;
+                    }
+                });
+            }
+            item.querySelector('.item-price-sum').innerText = Math.round(itemSum).toLocaleString();
+            grandTotal += itemSum;
+        });
+        document.getElementById('total-amount-show').innerText = Math.round(grandTotal).toLocaleString() + '.-';
+    }
+
+    function validateAndShowSummary() {
+        const items = document.querySelectorAll('.item-card');
+        if (items.length === 0) { alert("กรุณาเพิ่มรายการอย่างน้อย 1 รายการ"); return; }
+        let isValid = true;
+        let errorMsg = "";
+        items.forEach((item, idx) => {
+            const typeSelect = item.querySelector('.curtain-type');
+            const type = typeSelect.value;
+            const itemNum = idx + 1;
+            if (!type) {
+                typeSelect.classList.add('input-error');
+                isValid = false;
+                errorMsg = `รายการที่ ${itemNum}: กรุณาเลือกประเภทม่าน`;
+            } else {
+                const sizes = item.querySelectorAll('.size-entry');
+                sizes.forEach((size, sIdx) => {
+                    const wInput = size.querySelector('.w-val');
+                    const hInput = size.querySelector('.h-val');
+                    if (!parseFloat(wInput.value)) { wInput.classList.add('input-error'); isValid = false; }
+                    if (!parseFloat(hInput.value)) { hInput.classList.add('input-error'); isValid = false; }
+                    if (curtainPrices[type].calc === "width") {
+                        const l1 = size.querySelector('.l1-val').checked;
+                        const l2 = size.querySelector('.l2-val').checked;
+                        if (!l1 && !l2) {
+                            isValid = false;
+                            errorMsg = `รายการที่ ${itemNum} ชุดที่ ${sIdx+1}: กรุณาเลือก ผ้าทึบ หรือ ผ้าโปร่ง`;
+                        }
+                    }
+                });
+            }
+        });
+        if (!isValid) { alert(errorMsg || "กรุณากรอกข้อมูลขนาดให้ครบถ้วน"); return; }
+        showSummary();
+    }
+
+    function showSummary() {
+        const items = document.querySelectorAll('.item-card');
+        let html = ''; let grandTotal = 0;
+        items.forEach((item, index) => {
+            const room = item.querySelector('.room-name').value;
+            const type = item.querySelector('.curtain-type').value;
+            const config = curtainPrices[type];
+            let itemTotal = 0; let detailsHtml = '';
+            const badgeColor = config.color || '#34495e';
+            item.querySelectorAll('.size-entry').forEach((size, sIdx) => {
+                let wInput = parseFloat(size.querySelector('.w-val').value);
+                let hInput = parseFloat(size.querySelector('.h-val').value);
+                let wCalc = wInput; let hCalc = hInput;
+                let minWarningHtml = '';
+                if (type === "ฉากกั้นห้อง PVC") {
+                    if (wInput < 1.0) { wCalc = 1.0; minWarningHtml += `<span class="min-warning">* ความกว้างขั้นต่ำ 1.00 ม.</span>`; }
+                    if (hInput <= 2.0) hCalc = 2.0;
+                    else hCalc = Math.ceil((hInput - 2.0) / 0.20) * 0.20 + 2.0;
+                }
+                let unitPrice = 0;
+                if (config.calc === "width") {
+                    let subDetails = [];
+                    if (size.querySelector('.l1-val').checked) {
+                        let p = wCalc * config.main; unitPrice += p;
+                        subDetails.push(`<span>- ผ้าทึบ</span> <span>${Math.round(p).toLocaleString()} บ.</span>`);
+                    }
+                    if (size.querySelector('.l2-val').checked) {
+                        let p = wCalc * config.sheer; unitPrice += p;
+                        subDetails.push(`<span>- ผ้าโปร่ง</span> <span>${Math.round(p).toLocaleString()} บ.</span>`);
+                    }
+                    detailsHtml += `<div style="margin-top:10px; border-bottom:1px solid #f9f9f9; padding-bottom:5px;">
+                        <div style="font-size:12px; color:#333; font-weight:bold; margin-bottom:5px;">ชุดที่ ${sIdx+1}: ขนาด ${wInput}x${hInput} ม.</div>
+                        ${subDetails.map(d => `<div class="summary-detail">${d}</div>`).join('')}
+                    </div>`;
+                } else {
+                    let actualArea = wCalc * hCalc * 1.2;
+                    let usedArea = (actualArea < config.min) ? config.min : actualArea;
+                    if (actualArea < config.min) minWarningHtml += `<span class="min-warning">* ขั้นต่ำ ${config.min.toFixed(2)} ตร.หลา</span>`;
+                    unitPrice = usedArea * config.price;
+                    let sizeLabel = (type === "ฉากกั้นห้อง PVC") ? `${wInput}${wInput!==wCalc?`(${wCalc})`:''} x ${hInput}${hInput!==hCalc?`(${hCalc})`:''} ม.` : `${wInput}x${hInput} ม.`;
+                    detailsHtml += `<div style="margin-top:10px; border-bottom:1px solid #f9f9f9; padding-bottom:5px;">
+                        <div style="font-size:12px; color:#333; font-weight:bold; margin-bottom:5px;">ชุดที่ ${sIdx+1}: ขนาด ${sizeLabel}</div>
+                        <div class="summary-detail"><span>- ${type}</span> <span>${Math.round(unitPrice).toLocaleString()} บ.</span></div>
+                        ${minWarningHtml}
+                    </div>`;
+                }
+                itemTotal += unitPrice;
+            });
+            html += `<div class="summary-item"><div class="summary-title"><div><span class="type-badge" style="background-color: ${badgeColor};">${type}</span><span>${room || 'รายการที่ ' + (index+1)}</span></div><span>${Math.round(itemTotal).toLocaleString()} บ.</span></div>${detailsHtml}</div>`;
+            grandTotal += itemTotal;
+        });
+        document.getElementById('summaryList').innerHTML = html;
+        document.getElementById('summaryGrandTotal').innerText = `รวมทั้งสิ้น: ${Math.round(grandTotal).toLocaleString()} บาท`;
+        document.getElementById('summaryModal').style.display = 'flex';
+    }
+
+    function saveImage() {
+        const area = document.getElementById('capture-area');
+        const btnIcon = document.querySelector('.btn-save-icon');
+        
+        // Hide icon before capture
+        btnIcon.classList.add('hide-on-capture');
+
+        html2canvas(area, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'ใบสรุปราคา.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            btnIcon.classList.remove('hide-on-capture');
+        }).catch(err => {
+            alert("เกิดข้อผิดพลาดในการบันทึกรูปภาพ");
+            btnIcon.classList.remove('hide-on-capture');
+        });
+    }
+
+    function closeModal() { document.getElementById('summaryModal').style.display = 'none'; }
+    addItem();
+</script>
+</body>
+</html>
