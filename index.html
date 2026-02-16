@@ -1,371 +1,1933 @@
+
+
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curtain Quote App - Centered Summary</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        :root { --main: #2c3e50; --gold: #d4af37; --danger: #e74c3c; --green: #06C755; --bg: #f0f2f5; --accent: #34495e; }
-        body { font-family: 'Noto Sans Thai Looped', sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .app-card { background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 120px; }
-        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #f8f9fa; padding-bottom: 15px; }
-        .item-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; border-left: 5px solid var(--main); }
-        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
-        .item-number { background: var(--main); color: white; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap; }
-        .room-name-top { flex: 1; margin-bottom: 0 !important; padding: 5px 10px !important; font-size: 14px !important; border-style: dashed !important; height: 32px; }
-        .btn-remove-x { background: #fff0f0; color: var(--danger); border: 1px solid #ffebeb; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; line-height: 1; }
-        .btn-remove-x:hover { background: var(--danger); color: white; transform: translateY(-2px); }
-        label { display: block; margin-bottom: 5px; font-weight: 700; color: var(--main); font-size: 13px; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1.5px solid #eee; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 16px; transition: border 0.2s; }
-        .row { display: flex; gap: 10px; margin-bottom: 5px; }
-        .row div { flex: 1; }
-        .size-entry { background: #f8f9fa; padding: 10px; border-radius: 10px; margin-bottom: 10px; position: relative; }
-        .btn-remove-size { position: absolute; right: -5px; top: -5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; }
-        .btn-add-set { background: none; border: 1px dashed var(--main); color: var(--main); width: 100%; padding: 8px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: bold; margin-bottom: 15px; transition: 0.2s; }
-        .btn-add-set:hover { background: #f0f2f5; }
-        .bottom-row { display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 10px; gap: 10px; }
-        .price-display { text-align: right; color: var(--gold); font-weight: bold; font-size: 15px; margin-top: 5px; }
-        .option-box-small { background: #fdfaf0; padding: 8px; border-radius: 8px; border: 1px dashed var(--gold); margin-top: 5px; display: flex; gap: 15px; transition: background 0.2s; }
-        .check-item { display: flex; align-items: center; font-size: 13px; cursor: pointer; }
-        .check-item input { width: 16px; height: 16px; margin-right: 6px; accent-color: var(--gold); margin-bottom: 0; }
-        .btn-add { width: 100%; padding: 15px; background: var(--main); color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .total-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); display: flex; justify-content: center; z-index: 100; }
-        .footer-content { width: 100%; max-width: 470px; display: flex; flex-direction: column; gap: 10px; }
-        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
-        .btn-summary { width: 100%; padding: 18px; background: var(--gold); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>THE CORNER CURTAIN - คำนวณราคาม่าน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* การตั้งค่าหน้าต่างสรุปให้อยู่ตรงกลาง */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100vw; height: 100vh; 
-            background: rgba(0,0,0,0.7); 
-            z-index: 9999; 
-            justify-content: center; /* กลางแนวนอน */
-            align-items: center;     /* กลางแนวตั้ง */
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .modal-content { 
-            background: white; 
-            width: 100%; 
-            max-width: 450px; 
-            border-radius: 24px; 
-            max-height: 90vh; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative; 
-            overflow: hidden; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-        .summary-body { padding: 25px; background: white; overflow-y: auto; flex: 1; }
-        .summary-item { border-bottom: 1.5px solid #f0f0f0; padding: 15px 0; font-size: 14px; }
-        .summary-title { font-weight: bold; color: var(--main); font-size: 16px; display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .type-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; display: inline-block; color: white; font-weight: bold; }
-        .summary-detail { display: flex; justify-content: space-between; color: #444; font-size: 13px; margin-top: 4px; border-left: 2px solid #eee; padding-left: 10px; }
-        .summary-total { font-size: 22px; font-weight: bold; color: var(--gold); text-align: center; margin-top: 20px; border-top: 2px solid var(--main); padding-top: 15px; }
-        .min-warning { color: var(--danger); font-size: 11px; display: block; margin-top: 4px; font-weight: bold; }
-        
-        /* สถานะแจ้งเตือนความผิดพลาด */
-        .input-error { border: 1.5px solid var(--danger) !important; background: #fff6f6; }
-        .option-error { border: 1px solid var(--danger) !important; background: #fff6f6 !important; }
+    :root {
+      --bg: #f7f4f0;
+      --fg: #2a3a4a;
+      --card: #ffffff;
+      --card-fg: #2a3a4a;
+      --primary: #2f3f4f;
+      --primary-fg: #f7f4f0;
+      --secondary: #efebe6;
+      --muted: #eeebe6;
+      --muted-fg: #6b7280;
+      --accent: #d4a520;
+      --accent-fg: #1e2d3a;
+      --destructive: #e04040;
+      --destructive-fg: #fff;
+      --border: #e2ddd5;
+      --success: #22a05a;
+      --success-fg: #fff;
+      --radius: 12px;
+    }
 
-        .btn-save-icon { position: absolute; top: 20px; right: 20px; background: var(--green); color: white; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(6,199,85,0.3); z-index: 100; }
-        .btn-group { padding: 20px; background: #fafafa; border-top: 1px solid #eee; }
-        .close-modal { width: 100%; padding: 15px; background: #eee; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: #666; font-size: 16px; }
-        .hide-on-capture { display: none !important; }
-    </style>
+    body {
+      font-family: 'Noto Sans Thai Looped', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 160px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    .main-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Header */
+    .app-header {
+      text-align: center;
+      padding-bottom: 20px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--primary-fg);
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    .header-sub {
+      font-size: 13px;
+      color: var(--muted-fg);
+    }
+
+    /* Item Card */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .item-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 16px;
+      background: var(--card);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .item-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .item-inner {
+      padding: 20px;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .item-badge {
+      flex-shrink: 0;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--card);
+    }
+
+    .item-room-input {
+      flex: 1;
+      height: 32px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      background: transparent;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .item-room-input:focus {
+      border-color: var(--accent);
+      background: rgba(212, 165, 32, 0.04);
+    }
+
+    .item-room-input::placeholder {
+      color: #aaa;
+    }
+
+    .btn-remove-item {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(224, 64, 64, 0.2);
+      background: rgba(224, 64, 64, 0.05);
+      color: var(--destructive);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-remove-item:hover {
+      background: var(--destructive);
+      color: var(--destructive-fg);
+    }
+
+    /* Select */
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .select-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .select-field {
+      width: 100%;
+      appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 40px 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      background: var(--card);
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .select-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 165, 32, 0.15);
+    }
+
+    .select-field.error {
+      border-color: var(--destructive);
+      background: rgba(224, 64, 64, 0.04);
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--muted-fg);
+    }
+
+    /* Size Entry */
+    .size-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .size-card {
+      position: relative;
+      border-radius: 12px;
+      background: rgba(239, 235, 230, 0.6);
+      padding: 16px;
+    }
+
+    .btn-remove-size {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      background: var(--destructive);
+      color: var(--destructive-fg);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: transform 0.15s;
+    }
+
+    .btn-remove-size:hover {
+      transform: scale(1.1);
+    }
+
+    .size-inputs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .size-field-group {
+      flex: 1;
+    }
+
+    .size-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .size-label svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .size-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      background: var(--card);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .size-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 165, 32, 0.15);
+    }
+
+    .size-input.error {
+      border-color: var(--destructive);
+      background: rgba(224, 64, 64, 0.04);
+    }
+
+    .shake {
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0)
+      }
+
+      20% {
+        transform: translateX(-6px)
+      }
+
+      40% {
+        transform: translateX(6px)
+      }
+
+      60% {
+        transform: translateX(-4px)
+      }
+
+      80% {
+        transform: translateX(4px)
+      }
+    }
+
+    .size-input::placeholder {
+      color: #bbb;
+    }
+
+    /* Fabric Checkbox */
+    .fabric-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      border: 1px solid rgba(212, 165, 32, 0.3);
+      background: rgba(212, 165, 32, 0.05);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .fabric-row.error {
+      border-color: var(--destructive);
+      background: rgba(224, 64, 64, 0.04);
+    }
+
+    .fabric-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      cursor: pointer;
+    }
+
+    .fabric-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* Add Size Button */
+    .btn-add-size {
+      width: 100%;
+      padding: 10px;
+      border: 1px dashed rgba(47, 63, 79, 0.3);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .btn-add-size:hover {
+      border-color: rgba(47, 63, 79, 0.5);
+      background: rgba(47, 63, 79, 0.04);
+    }
+
+    /* Item Price */
+    .item-price {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .item-price-label {
+      font-size: 11px;
+      color: var(--muted-fg);
+      margin-right: 8px;
+    }
+
+    .item-price-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .item-price-unit {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Add Item Button */
+    .btn-add-item {
+      width: 100%;
+      margin-top: 24px;
+      padding: 16px;
+      border: none;
+      border-radius: 16px;
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(47, 63, 79, 0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-add-item:hover {
+      box-shadow: 0 6px 24px rgba(47, 63, 79, 0.3);
+    }
+
+    .btn-add-item:active {
+      transform: scale(0.98);
+    }
+
+    /* Bottom Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .bottom-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bottom-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bottom-total-label {
+      font-size: 13px;
+      color: var(--muted-fg);
+    }
+
+    .bottom-total-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .btn-summary {
+      width: 100%;
+      padding: 18px 20px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #dab234, #c49a10);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(212, 165, 32, 0.35);
+      transition: all 0.25s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-summary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, transparent 50%);
+      pointer-events: none;
+      border-radius: 16px;
+    }
+
+    .btn-summary:hover {
+      box-shadow: 0 6px 28px rgba(212, 165, 32, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-summary:active {
+      transform: translateY(0) scale(0.97);
+      box-shadow: 0 2px 10px rgba(212, 165, 32, 0.25);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(42, 58, 74, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-save-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #22a05a, #1a8a4c);
+      color: var(--success-fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
+      box-shadow: 0 2px 8px rgba(34, 160, 90, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-save-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .btn-save-img:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(34, 160, 90, 0.35);
+    }
+
+    .btn-save-img:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    .btn-close-modal {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: none;
+      background: var(--muted);
+      color: var(--muted-fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .btn-close-modal:hover {
+      background: #ddd;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .summary-header {
+      text-align: center;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .summary-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .summary-header p {
+      font-size: 11px;
+      color: var(--muted-fg);
+      margin-top: 4px;
+    }
+
+    .summary-item {
+      border-bottom: 1px solid rgba(226, 221, 213, 0.5);
+      padding: 16px 0;
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-item-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .summary-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .summary-type-badge {
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--card);
+    }
+
+    .summary-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .summary-item-total {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .summary-detail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 8px;
+      padding: 2px 0 2px 12px;
+      border-left: 2px solid var(--border);
+      font-size: 11px;
+      color: var(--muted-fg);
+    }
+
+    .summary-size-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-fg);
+      margin-bottom: 4px;
+    }
+
+    .summary-warning {
+      margin-left: 8px;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--destructive);
+    }
+
+    .summary-grand {
+      margin-top: 24px;
+      border-top: 2px solid var(--primary);
+      padding-top: 16px;
+      text-align: center;
+    }
+
+    .summary-grand-label {
+      font-size: 13px;
+      color: var(--muted-fg);
+    }
+
+    .summary-grand-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .summary-grand-unit {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border);
+      background: rgba(239, 235, 230, 0.5);
+      padding: 16px 24px;
+    }
+
+    .btn-back {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: var(--muted);
+      color: var(--muted-fg);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+
+    .btn-back:hover {
+      background: #ddd;
+    }
+
+    /* Customer Name */
+    .customer-section {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 4px 6px;
+      transition: all 0.25s cubic-bezier(.4, 0, .2, 1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .customer-section:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 165, 32, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .customer-icon-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(212, 165, 32, 0.15), rgba(212, 165, 32, 0.06));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .customer-icon-circle svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--accent);
+    }
+
+    .customer-input {
+      flex: 1;
+      border: none;
+      padding: 10px 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--fg);
+      background: transparent;
+      outline: none;
+    }
+
+    .customer-input::placeholder {
+      color: #aaa;
+      font-weight: 400;
+    }
+
+    .summary-customer {
+      text-align: center;
+      margin-bottom: 16px;
+      padding: 10px 16px;
+      background: rgba(212, 165, 32, 0.08);
+      border-radius: 10px;
+    }
+
+    .summary-customer-label {
+      font-size: 11px;
+      color: var(--muted-fg);
+      margin-bottom: 2px;
+    }
+
+    .summary-customer-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Secret Discount */
+    .discount-section {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: rgba(34, 160, 90, 0.06);
+      border: 1px solid rgba(34, 160, 90, 0.25);
+      border-radius: 12px;
+    }
+
+    .discount-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .discount-percent-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .discount-percent-btn {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(34, 160, 90, 0.25);
+      background: var(--card);
+      color: var(--fg);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .discount-percent-btn:hover {
+      border-color: var(--success);
+      background: rgba(34, 160, 90, 0.06);
+    }
+
+    .discount-percent-btn.active {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+      box-shadow: 0 2px 6px rgba(34, 160, 90, 0.25);
+    }
+
+    .discount-or {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-fg);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .discount-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .discount-input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--fg);
+      background: var(--card);
+      outline: none;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .discount-input:focus {
+      border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(34, 160, 90, 0.15);
+    }
+
+    .discount-input::placeholder {
+      color: #bbb;
+      text-align: center;
+    }
+
+    .btn-remove-discount {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(224, 64, 64, 0.2);
+      background: rgba(224, 64, 64, 0.05);
+      color: var(--destructive);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-remove-discount:hover {
+      background: var(--destructive);
+      color: var(--destructive-fg);
+    }
+
+    .discount-result {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--destructive);
+      text-align: right;
+    }
+
+    .summary-grand-discount {
+      font-size: 14px;
+      color: var(--destructive);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .summary-grand-original {
+      font-size: 13px;
+      color: var(--muted-fg);
+      text-decoration: line-through;
+      margin-bottom: 2px;
+    }
+
+    /* Secret button */
+    .btn-secret {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted-fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(.4, 0, .2, 1);
+      user-select: none;
+      -webkit-user-select: none;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-secret::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(212, 165, 32, 0.08), transparent);
+      border-radius: 7px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-secret:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-secret:hover::after {
+      opacity: 1;
+    }
+
+    .btn-secret:active {
+      transform: scale(0.9);
+    }
+
+    /* Toast notification */
+    .toast-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--card);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+      transform: translateY(-100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(.4, 0, .2, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.toast-error {
+      background: linear-gradient(135deg, #e04040, #c53030);
+    }
+
+    .toast.toast-success {
+      background: linear-gradient(135deg, #22a05a, #1a8a4c);
+    }
+
+    .toast.toast-warning {
+      background: linear-gradient(135deg, #d4a520, #b8901a);
+    }
+
+    .toast-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Image preview overlay */
+    .img-preview-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(.4, 0, .2, 1);
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+    }
+
+    .img-preview-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .btn-preview-x {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 1;
+    }
+
+    .btn-preview-x:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-preview-x:active {
+      transform: scale(0.9);
+    }
+
+    .img-preview-hint {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .img-preview-hint-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .img-preview-img {
+      max-width: 92%;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .img-preview-actions {
+      display: flex;
+      gap: 10px;
+      padding: 0 20px 24px;
+      flex-shrink: 0;
+    }
+
+    .btn-preview-download {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #22a05a, #1a8a4c);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 12px rgba(34, 160, 90, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-preview-download:active {
+      transform: scale(0.96);
+    }
+
+    .btn-preview-close {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .btn-preview-close:active {
+      transform: scale(0.96);
+    }
+
+    /* SVG icons inline */
+    svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app-card">
-    <div class="header">
-        <h1 style="font-size: 24px; color: var(--main); margin: 0;">THE CORNER CURTAIN</h1>
-        <p style="font-size: 13px; color: #7f8c8d; margin: 5px 0 0;">โปรแกรมคำนวนราคาเบื้องต้น</p>
-    </div>
-    <div id="itemList"></div>
-    <button class="btn-add" onclick="addItem()">
-        <span style="font-size: 22px; line-height: 0;">+</span> เพิ่มรายการใหม่
+  <div class="toast-container" id="toast-container"></div>
+
+  <div class="img-preview-overlay" id="img-preview-overlay" onclick="closePreview(event)">
+    <button class="btn-preview-x" onclick="closePreview()">
+      <svg viewBox="0 0 24 24" width="18" height="18">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
     </button>
-</div>
-
-<div class="total-bar">
-    <div class="footer-content">
-        <div class="price-row">
-            <span style="font-size: 14px; color: #7f8c8d;">ยอดรวมทั้งหมด:</span>
-            <span id="total-amount-show" style="font-size: 24px; color: var(--main); font-weight: bold;">0.-</span>
-        </div>
-        <button class="btn-summary" onclick="validateAndShowSummary()">สรุปรายการทั้งหมด</button>
+    <div class="img-preview-hint">
+      <div class="img-preview-hint-icon">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="stroke:#fff">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </div>
+      กดค้างที่รูปเพื่อบันทึก
     </div>
-</div>
+    <img class="img-preview-img" id="img-preview-img" src="" alt="preview">
+    <div class="img-preview-actions">
+      <button class="btn-preview-download" id="btn-preview-download">
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        ดาวน์โหลด
+      </button>
+      <button class="btn-preview-close" onclick="closePreview()">
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+        ปิด
+      </button>
+    </div>
+  </div>
 
-<div id="summaryModal" class="modal">
-    <div class="modal-content">
-        <button class="btn-save-icon" onclick="saveImage()" title="บันทึกรูปภาพ">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+  <div class="container">
+    <div class="main-card">
+      <!-- Header -->
+      <div class="app-header">
+        <div class="header-row">
+          <div class="header-title">THE CORNER CURTAIN</div>
+        </div>
+        <p class="header-sub">โปรแกรมคำนวนราคาเบื้องต้น</p>
+      </div>
+
+      <!-- Customer / Project Name -->
+      <div class="customer-section">
+        <div class="customer-icon-circle">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+        <input type="text" id="customer-name" class="customer-input" placeholder="นามลูกค้า"
+          oninput="customerName=this.value">
+      </div>
+
+      <!-- Item List -->
+      <div id="item-list" class="item-list"></div>
+
+      <!-- Add Item Button -->
+      <button class="btn-add-item" onclick="addItem()">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        เพิ่มรายการใหม่
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar">
+    <div class="bottom-inner">
+      <div class="bottom-total-row">
+        <span class="bottom-total-label">ยอดรวมทั้งหมด:</span>
+        <span id="grand-total" class="bottom-total-value">0.-</span>
+      </div>
+      <button class="btn-summary" onclick="showSummary()">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <polyline points="10 9 9 9 8 9" />
+        </svg>
+        สรุปรายการทั้งหมด
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Modal -->
+  <div id="summary-modal" class="modal-overlay" onclick="if(event.target===this)closeSummary()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="modal-title">สรุปรายการ</span>
+          <button class="btn-secret" onclick="handleSecretTap()" aria-label="settings">
+            <svg viewBox="0 0 24 24" width="11" height="11" style="stroke-width:2.2">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-btns">
+          <button class="btn-save-img" onclick="saveImage()" title="บันทึกรูปภาพ">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </button>
+          <button class="btn-close-modal" onclick="closeSummary()">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="capture-area" class="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn-back" onclick="closeSummary()">
+          <svg viewBox="0 0 24 24" width="16" height="16">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          ย้อนกลับ
         </button>
-        <div id="capture-area" class="summary-body">
-            <h2 style="text-align: center; color: var(--main); margin: 0 0 20px 0; border-bottom: 2px solid var(--gold); padding-bottom: 10px; font-size: 24px;">สรุปรายการ</h2>
-            <div id="summaryList"></div>
-            <div id="summaryGrandTotal" class="summary-total"></div>
-        </div>
-        <div class="btn-group">
-            <button class="close-modal" onclick="closeModal()">ย้อนกลับ</button>
-        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
+    // ===== TOAST =====
+    function showToast(message, type = "error") {
+      const container = document.getElementById("toast-container");
+      const icons = {
+        error: '<svg class="toast-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        success: '<svg class="toast-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        warning: '<svg class="toast-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+      };
+      const toast = document.createElement("div");
+      toast.className = "toast toast-" + type;
+      toast.innerHTML = (icons[type] || icons.error) + "<span>" + message + "</span>";
+      container.innerHTML = "";
+      container.appendChild(toast);
+      requestAnimationFrame(() => { requestAnimationFrame(() => { toast.classList.add("show"); }); });
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 400);
+      }, 3000);
+    }
+
+    // ===== DATA =====
     const curtainPrices = {
-        "ม่านตาไก่": { main: 1400, sheer: 1200, calc: "width", color: "#3498db" },
-        "ม่านจีบ": { main: 1600, sheer: 1400, calc: "width", color: "#9b59b6" },
-        "ม่านลอน": { main: 1800, sheer: 1600, calc: "width", color: "#2ecc71" },
-        "ม่านพับ": { main: 2000, sheer: 1800, calc: "width", color: "#1abc9c" },
-        "ม่านม้วน": { price: 1000, calc: "sqyard", min: 1.80, color: "#e67e22" },
-        "มู่ลี่ไม้": { price: 2190, calc: "sqyard", min: 1.50, color: "#8b4513" },
-        "มู่ลี่อลูมิเนียม": { price: 890, calc: "sqyard", min: 1.80, color: "#7f8c8d" },
-        "ฉากกั้นห้อง PVC": { price: 890, calc: "sqyard", min: 2.50, color: "#e74c3c" }
+      "ม่านตาไก่": { main: 1400, sheer: 1200, calc: "width", color: "#3b82f6" },
+      "ม่านจีบ": { main: 1600, sheer: 1400, calc: "width", color: "#8b5cf6" },
+      "ม่านลอน": { main: 1800, sheer: 1600, calc: "width", color: "#10b981" },
+      "ม่านพับ": { main: 2000, sheer: 1800, calc: "width", color: "#14b8a6" },
+      "ม่านม้วน": { price: 1000, calc: "sqyard", min: 1.80, color: "#f59e0b" },
+      "มู่ลี่ไม้": { price: 2190, calc: "sqyard", min: 1.50, color: "#92400e" },
+      "มู่ลี่อลูมิเนียม": { price: 890, calc: "sqyard", min: 1.80, color: "#6b7280" },
+      "ฉากกั้นห้อง PVC": { price: 890, calc: "sqyard", min: 2.50, color: "#ef4444" },
     };
+    const curtainTypes = Object.keys(curtainPrices);
 
+    let items = [];
+    let idCounter = 0;
+    let customerName = "";
+
+    function uid() { return "id-" + (++idCounter) + "-" + Math.random().toString(36).slice(2, 8); }
+
+    function createSize() {
+      return { id: uid(), width: "", height: "", hasMain: false, hasSheer: false };
+    }
+
+    function createItem() {
+      return { id: uid(), roomName: "", curtainType: "", sizes: [createSize()] };
+    }
+
+    // ===== CALCULATION =====
+    function calcItemPrice(item) {
+      const config = curtainPrices[item.curtainType];
+      if (!config) return 0;
+      let total = 0;
+      for (const s of item.sizes) {
+        let w = parseFloat(s.width) || 0;
+        let h = parseFloat(s.height) || 0;
+        if (item.curtainType === "ฉากกั้นห้อง PVC") {
+          if (w > 0 && w < 1.0) w = 1.0;
+          if (h > 0) { h = h <= 2.0 ? 2.0 : Math.ceil((h - 2.0) / 0.20) * 0.20 + 2.0; }
+        }
+        if (config.calc === "width") {
+          if (s.hasMain && config.main) total += w * config.main;
+          if (s.hasSheer && config.sheer) total += w * config.sheer;
+        } else {
+          let area = w * h * 1.2;
+          if (area > 0 && config.min && area < config.min) area = config.min;
+          if (config.price) total += area * config.price;
+        }
+      }
+      return Math.round(total);
+    }
+
+    function grandTotal() {
+      return items.reduce((sum, i) => sum + calcItemPrice(i), 0);
+    }
+
+    // ===== ACTIONS =====
     function addItem() {
-        const id = Date.now();
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item-card';
-        itemDiv.id = `item-${id}`;
-        itemDiv.innerHTML = `
-            <div class="item-header">
-                <span class="item-number">รายการที่ </span>
-                <input type="text" class="room-name room-name-top" placeholder="ใส่ชื่อห้อง / หมายเหตุ">
-                <div class="btn-remove-x" onclick="removeItem('${id}')">×</div>
-            </div>
-            <label>ประเภทม่าน</label>
-            <select class="curtain-type" onchange="resetError(this); updateUIForType('${id}'); updatePrices();">
-                <option value="">เลือกประเภท...</option>
-                <option>ม่านตาไก่</option><option>ม่านจีบ</option>
-                <option>ม่านลอน</option><option>ม่านพับ</option>
-                <option>ม่านม้วน</option><option>มู่ลี่ไม้</option>
-                <option>มู่ลี่อลูมิเนียม</option><option>ฉากกั้นห้อง PVC</option>
-            </select>
-            <div id="size-container-${id}"></div>
-            <button class="btn-add-set" onclick="addSizeField('${id}')">+ เพิ่มชุดในรายการนี้</button>
-            <div class="bottom-row">
-                <div class="price-display">รวมรายการนี้: <span class="item-price-sum">0</span> บ.</div>
-            </div>
-        `;
-        document.getElementById('itemList').appendChild(itemDiv);
-        addSizeField(id);
-        updateNumbers();
+      items.push(createItem());
+      render();
     }
 
-    function addSizeField(itemId) {
-        const container = document.getElementById(`size-container-${itemId}`);
-        const type = document.querySelector(`#item-${itemId} .curtain-type`).value;
-        const sizeId = Date.now() + Math.random();
-        const isFabric = type && curtainPrices[type].calc === "width";
-        const div = document.createElement('div');
-        div.className = 'size-entry';
-        div.id = `size-${sizeId}`;
-        div.innerHTML = `
-            ${container.children.length > 0 ? `<button class="btn-remove-size" onclick="this.parentElement.remove(); updatePrices();">×</button>` : ''}
-            <div class="row">
-                <div><label>กว้าง (ม.)</label><input type="text" class="w-val" placeholder="0.00" inputmode="decimal" oninput="resetError(this); updatePrices()"></div>
-                <div><label>สูง (ม.)</label><input type="text" class="h-val" placeholder="0.00" inputmode="decimal" oninput="resetError(this); updatePrices()"></div>
-            </div>
-            <div class="option-box-small" style="display: ${isFabric ? 'flex' : 'none'}">
-                <label class="check-item"><input type="checkbox" class="l1-val" onchange="resetBoxError(this); updatePrices()"> ผ้าทึบ</label>
-                <label class="check-item"><input type="checkbox" class="l2-val" onchange="resetBoxError(this); updatePrices()"> ผ้าโปร่ง</label>
-            </div>
-        `;
-        container.appendChild(div);
+    function removeItem(id) {
+      items = items.filter(i => i.id !== id);
+      render();
     }
 
-    function updateUIForType(itemId) {
-        const type = document.querySelector(`#item-${itemId} .curtain-type`).value;
-        const isFabric = type && curtainPrices[type].calc === "width";
-        const options = document.querySelectorAll(`#item-${itemId} .option-box-small`);
-        options.forEach(opt => opt.style.display = isFabric ? 'flex' : 'none');
+    function addSize(itemId) {
+      const item = items.find(i => i.id === itemId);
+      if (item) { item.sizes.push(createSize()); render(); }
     }
 
-    function resetError(el) { el.classList.remove('input-error'); }
-    function resetBoxError(el) { el.closest('.option-box-small').classList.remove('option-error'); }
-    function removeItem(id) { document.getElementById(`item-${id}`).remove(); updateNumbers(); updatePrices(); }
-    function updateNumbers() { document.querySelectorAll('.item-card').forEach((item, index) => { item.querySelector('.item-number').innerText = `รายการที่ ${index + 1}`; }); }
+    function removeSize(itemId, sizeId) {
+      const item = items.find(i => i.id === itemId);
+      if (item && item.sizes.length > 1) {
+        item.sizes = item.sizes.filter(s => s.id !== sizeId);
+        render();
+      }
+    }
+
+    function onTypeChange(itemId, value) {
+      const item = items.find(i => i.id === itemId);
+      if (item) { item.curtainType = value; render(); }
+    }
+
+    function onRoomChange(itemId, value) {
+      const item = items.find(i => i.id === itemId);
+      if (item) item.roomName = value;
+    }
+
+    function onSizeInput(itemId, sizeId, field, value) {
+      const item = items.find(i => i.id === itemId);
+      if (!item) return;
+      const s = item.sizes.find(x => x.id === sizeId);
+      if (s) { s[field] = value; updatePrices(); }
+    }
+
+    function onCheckbox(itemId, sizeId, field, checked) {
+      const item = items.find(i => i.id === itemId);
+      if (!item) return;
+      const s = item.sizes.find(x => x.id === sizeId);
+      if (s) { s[field] = checked; updatePrices(); }
+    }
 
     function updatePrices() {
-        let grandTotal = 0;
-        document.querySelectorAll('.item-card').forEach(item => {
-            const type = item.querySelector('.curtain-type').value;
-            let itemSum = 0;
-            if (curtainPrices[type]) {
-                const config = curtainPrices[type];
-                item.querySelectorAll('.size-entry').forEach(size => {
-                    let w = parseFloat(size.querySelector('.w-val').value) || 0;
-                    let h = parseFloat(size.querySelector('.h-val').value) || 0;
-                    
-                    if (type === "ฉากกั้นห้อง PVC") {
-                        if (w > 0 && w < 1.0) w = 1.0;
-                        if (h > 0) {
-                            if (h <= 2.0) h = 2.0;
-                            else h = Math.ceil((h - 2.0) / 0.20) * 0.20 + 2.0;
-                        }
-                    }
-
-                    if (config.calc === "width") {
-                        if (size.querySelector('.l1-val').checked) itemSum += w * config.main;
-                        if (size.querySelector('.l2-val').checked) itemSum += w * config.sheer;
-                    } else {
-                        let area = w * h * 1.2;
-                        if (area > 0 && area < config.min) area = config.min;
-                        itemSum += area * config.price;
-                    }
-                });
-            }
-            item.querySelector('.item-price-sum').innerText = Math.round(itemSum).toLocaleString();
-            grandTotal += itemSum;
-        });
-        document.getElementById('total-amount-show').innerText = Math.round(grandTotal).toLocaleString() + '.-';
+      for (const item of items) {
+        const el = document.getElementById("price-" + item.id);
+        if (el) el.textContent = calcItemPrice(item).toLocaleString();
+      }
+      document.getElementById("grand-total").textContent = grandTotal().toLocaleString() + ".-";
     }
 
-    function validateAndShowSummary() {
-        const items = document.querySelectorAll('.item-card');
-        if (items.length === 0) { alert("กรุณาเพิ่มรายการอย่างน้อย 1 รายการ"); return; }
-        
-        let isValid = true;
-        let alertMsg = "";
+    // ===== RENDER =====
+    function render() {
+      const list = document.getElementById("item-list");
+      list.innerHTML = "";
+      items.forEach((item, idx) => {
+        const config = curtainPrices[item.curtainType];
+        const isFabric = config?.calc === "width";
+        const color = config?.color || "#2f3f4f";
+        const options = curtainTypes.map(t => `<option value="${t}" ${item.curtainType === t ? "selected" : ""}>${t}</option>`).join("");
 
-        items.forEach(item => {
-            const typeSelect = item.querySelector('.curtain-type');
-            if (!typeSelect.value) {
-                typeSelect.classList.add('input-error');
-                isValid = false;
-                alertMsg = "กรุณาเลือกประเภท";
-            } else {
-                const isFabric = curtainPrices[typeSelect.value].calc === "width";
-                item.querySelectorAll('.size-entry').forEach(size => {
-                    const w = size.querySelector('.w-val');
-                    const h = size.querySelector('.h-val');
-                    
-                    if (!w.value || parseFloat(w.value) <= 0) { w.classList.add('input-error'); isValid = false; }
-                    if (!h.value || parseFloat(h.value) <= 0) { h.classList.add('input-error'); isValid = false; }
-                    
-                    if (isFabric) {
-                        const optBox = size.querySelector('.option-box-small');
-                        if (!size.querySelector('.l1-val').checked && !size.querySelector('.l2-val').checked) {
-                            optBox.classList.add('option-error');
-                            isValid = false;
-                            if (!alertMsg) alertMsg = "กรุณาเลือกอย่างน้อย 1 รายการ (ทึบ/โปร่ง)";
-                        }
-                    }
-                });
-                if (!isValid && !alertMsg) alertMsg = "กรุณาใส่ขนาด ความกว้าง/สูงให้ถูกต้อง";
-            }
+        let sizesHTML = "";
+        item.sizes.forEach((s, sIdx) => {
+          const removeBtn = item.sizes.length > 1
+            ? `<button class="btn-remove-size" onclick="removeSize('${item.id}','${s.id}')"><svg viewBox="0 0 24 24" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`
+            : "";
+          const fabricRow = isFabric
+            ? `<div class="fabric-row">
+            <label class="fabric-label"><input type="checkbox" ${s.hasMain ? "checked" : ""} onchange="onCheckbox('${item.id}','${s.id}','hasMain',this.checked)"> ผ้าทึบ</label>
+            <label class="fabric-label"><input type="checkbox" ${s.hasSheer ? "checked" : ""} onchange="onCheckbox('${item.id}','${s.id}','hasSheer',this.checked)"> ผ้าโปร่ง</label>
+          </div>` : "";
+
+          sizesHTML += `
+        <div class="size-card">
+          ${removeBtn}
+          <div class="size-inputs">
+            <div class="size-field-group">
+              <label class="size-label">
+                <svg viewBox="0 0 24 24" width="12" height="12"><path d="M2 12h20M2 12l4-4M2 12l4 4M22 12l-4-4M22 12l-4 4"/></svg>
+                กว้าง (ม.)
+              </label>
+              <input type="text" inputmode="decimal" class="size-input" placeholder="0.00" value="${s.width}" oninput="onSizeInput('${item.id}','${s.id}','width',this.value)">
+            </div>
+            <div class="size-field-group">
+              <label class="size-label">
+                <svg viewBox="0 0 24 24" width="12" height="12"><path d="M12 2v20M12 2l-4 4M12 2l4 4M12 22l-4-4M12 22l4-4"/></svg>
+                สูง (ม.)
+              </label>
+              <input type="text" inputmode="decimal" class="size-input" placeholder="0.00" value="${s.height}" oninput="onSizeInput('${item.id}','${s.id}','height',this.value)">
+            </div>
+          </div>
+          ${fabricRow}
+        </div>`;
         });
 
-        if (!isValid) { alert(alertMsg || "กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
-        showSummary();
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.style.borderLeftColor = color;
+        card.innerHTML = `
+      <div class="item-inner">
+        <div class="item-header">
+          <span class="item-badge" style="background:${color}">รายการที่ ${idx + 1}</span>
+          <input type="text" class="item-room-input" placeholder="ชื่อห้อง / หมายเหตุ" value="${item.roomName}" oninput="onRoomChange('${item.id}',this.value)">
+          <button class="btn-remove-item" onclick="removeItem('${item.id}')">
+            <svg viewBox="0 0 24 24" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="select-wrap">
+          <label class="field-label">ประเภทม่าน</label>
+          <select class="select-field" onchange="onTypeChange('${item.id}',this.value)">
+            <option value="">เลือกประเภท...</option>
+            ${options}
+          </select>
+          <span class="select-arrow"><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+        <div class="size-list">${sizesHTML}</div>
+        <button class="btn-add-size" onclick="addSize('${item.id}')">
+          <svg viewBox="0 0 24 24" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          เพิ่มชุดในรายการนี้
+        </button>
+        <div class="item-price">
+          <span class="item-price-label">รวมรายการนี้</span>
+          <span class="item-price-value"><span id="price-${item.id}">${calcItemPrice(item).toLocaleString()}</span> <span class="item-price-unit">บ.</span></span>
+        </div>
+      </div>`;
+        list.appendChild(card);
+      });
+
+      document.getElementById("grand-total").textContent = grandTotal().toLocaleString() + ".-";
     }
 
+    // ===== SUMMARY =====
     function showSummary() {
-        const items = document.querySelectorAll('.item-card');
-        let html = ''; let grandTotal = 0;
-        items.forEach((item, index) => {
-            const room = item.querySelector('.room-name').value;
-            const type = item.querySelector('.curtain-type').value;
-            const config = curtainPrices[type];
-            let itemTotal = 0; let detailsHtml = '';
-            const badgeColor = config.color || '#34495e';
+      if (items.length === 0) { showToast("กรุณาเพิ่มรายการอย่างน้อย 1 รายการ", "warning"); return; }
 
-            item.querySelectorAll('.size-entry').forEach((size, sIdx) => {
-                let wInput = parseFloat(size.querySelector('.w-val').value) || 0;
-                let hInput = parseFloat(size.querySelector('.h-val').value) || 0;
-                let wCalc = wInput; let hCalc = hInput;
-                let warning = '';
-                
-                if (type === "ฉากกั้นห้อง PVC") {
-                    if (wInput > 0 && wInput < 1.0) {
-                        wCalc = 1.0;
-                        warning += `<span class="min-warning">* ความกว้างขั้นต่ำคิดที่ 1.00 ม.</span>`;
-                    }
-                    if (hInput > 0) {
-                        if (hInput <= 2.0) hCalc = 2.0;
-                        else hCalc = Math.ceil((hInput - 2.0) / 0.20) * 0.20 + 2.0;
-                    }
-                }
+      // Clear previous error states
+      document.querySelectorAll(".select-field.error, .size-input.error").forEach(el => el.classList.remove("error", "shake"));
 
-                let unitPrice = 0;
-                if (config.calc === "width") {
-                    let sub = [];
-                    if (size.querySelector('.l1-val').checked) {
-                        let p = wCalc * config.main; unitPrice += p;
-                        sub.push(`<span>- ผ้าทึบ</span> <span>${Math.round(p).toLocaleString()} บ.</span>`);
-                    }
-                    if (size.querySelector('.l2-val').checked) {
-                        let p = wCalc * config.sheer; unitPrice += p;
-                        sub.push(`<span>- ผ้าโปร่ง</span> <span>${Math.round(p).toLocaleString()} บ.</span>`);
-                    }
-                    detailsHtml += `<div style="margin-top:10px; border-bottom:1px solid #f9f9f9; padding-bottom:5px;">
-                        <div style="font-size:12px; font-weight:bold; color:#333;">ชุดที่ ${sIdx+1}: ${wInput}x${hInput} ม.</div>
-                        ${sub.map(s => `<div class="summary-detail">${s}</div>`).join('')}
-                        ${warning}
-                    </div>`;
-                } else {
-                    let area = wCalc * hCalc * 1.2;
-                    if (area > 0 && area < config.min) {
-                        area = config.min;
-                        warning += `<span class="min-warning">* ขนาดขั้นต่ำคิดที่ ${config.min.toFixed(2)} ตร.หลา</span>`;
-                    }
-                    unitPrice = area * config.price;
-                    detailsHtml += `<div style="margin-top:10px; border-bottom:1px solid #f9f9f9; padding-bottom:5px;">
-                        <div class="summary-detail"><span>ชุดที่ ${sIdx+1}: ${wInput}x${hInput} ม.</span> <span>${Math.round(unitPrice).toLocaleString()} บ.</span></div>
-                        ${warning}
-                    </div>`;
-                }
-                itemTotal += unitPrice;
-            });
-            html += `<div class="summary-item"><div class="summary-title"><div><span class="type-badge" style="background:${badgeColor}">${type}</span>${room || 'รายการที่ '+(index+1)}</div><span>${Math.round(itemTotal).toLocaleString()} บ.</span></div>${detailsHtml}</div>`;
-            grandTotal += itemTotal;
+      let valid = true; let msg = ""; let errorItemIdx = -1;
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (!item.curtainType) { valid = false; msg = "กรุณาเลือกประเภทม่าน"; errorItemIdx = i; break; }
+        const config = curtainPrices[item.curtainType];
+        const isFabric = config?.calc === "width";
+        for (const s of item.sizes) {
+          const w = parseFloat(s.width), h = parseFloat(s.height);
+          if (!s.width || isNaN(w) || w <= 0 || !s.height || isNaN(h) || h <= 0) {
+            valid = false; msg = "กรุณาใส่ขนาด ความกว้าง/สูงให้ถูกต้อง"; errorItemIdx = i; break;
+          }
+          if (isFabric && !s.hasMain && !s.hasSheer) {
+            valid = false; msg = "กรุณาเลือกอย่างน้อย 1 รายการ (ทึบ/โปร่ง)"; errorItemIdx = i; break;
+          }
+        }
+        if (!valid) break;
+      }
+      if (!valid) {
+        showToast(msg || "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+        // Highlight error fields in the problematic card
+        if (errorItemIdx >= 0) {
+          const cards = document.querySelectorAll(".item-card");
+          const card = cards[errorItemIdx];
+          if (card) {
+            if (msg.includes("ประเภทม่าน")) {
+              const sel = card.querySelector(".select-field");
+              if (sel) { sel.classList.add("error", "shake"); sel.scrollIntoView({ behavior: "smooth", block: "center" }); }
+            } else if (msg.includes("ขนาด")) {
+              card.querySelectorAll(".size-input").forEach(inp => {
+                const v = parseFloat(inp.value);
+                if (!inp.value || isNaN(v) || v <= 0) inp.classList.add("error", "shake");
+              });
+              const firstErr = card.querySelector(".size-input.error");
+              if (firstErr) firstErr.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+              card.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }
+        }
+        return;
+      }
+
+      // Build summary HTML
+      const custDisplay = customerName.trim();
+      let html = `<div class="summary-header"><h3>สรุปรายการ</h3><p>THE CORNER CURTAIN</p></div>`;
+      if (custDisplay) {
+        html += `<div class="summary-customer"><p class="summary-customer-label">นามลูกค้า</p><p class="summary-customer-name">${custDisplay}</p></div>`;
+      }
+      for (let idx = 0; idx < items.length; idx++) {
+        const item = items[idx];
+        const config = curtainPrices[item.curtainType];
+        if (!config) continue;
+        const itemTotal = calcItemPrice(item);
+        html += `<div class="summary-item">
+      <div class="summary-item-head">
+        <div class="summary-item-left">
+          <span class="summary-type-badge" style="background:${config.color}">${item.curtainType}</span>
+          <span class="summary-item-name">${item.roomName || "รายการที่ " + (idx + 1)}</span>
+        </div>
+        <span class="summary-item-total">${itemTotal.toLocaleString()} บ.</span>
+      </div>`;
+
+        item.sizes.forEach((s, sIdx) => {
+          let wInput = parseFloat(s.width) || 0, hInput = parseFloat(s.height) || 0;
+          let wCalc = wInput, hCalc = hInput;
+          const warnings = [];
+          if (item.curtainType === "ฉากกั้นห้อง PVC") {
+            if (wInput > 0 && wInput < 1.0) { wCalc = 1.0; warnings.push("* ความกว้างขั้นต่ำคิดที่ 1.00 ม."); }
+            if (hInput > 0) { hCalc = hInput <= 2.0 ? 2.0 : Math.ceil((hInput - 2.0) / 0.20) * 0.20 + 2.0; }
+          }
+          if (config.calc === "width") {
+            html += `<p class="summary-size-label">ชุดที่ ${sIdx + 1}: ${wInput.toFixed(2)}x${hInput.toFixed(2)} ม.</p>`;
+            if (s.hasMain && config.main) {
+              const p = Math.round(wCalc * config.main);
+              html += `<div class="summary-detail"><span>- ผ้าทึบ</span><span>${p.toLocaleString()} บ.</span></div>`;
+            }
+            if (s.hasSheer && config.sheer) {
+              const p = Math.round(wCalc * config.sheer);
+              html += `<div class="summary-detail"><span>- ผ้าโปร่ง</span><span>${p.toLocaleString()} บ.</span></div>`;
+            }
+          } else {
+            let area = wCalc * hCalc * 1.2;
+            if (area > 0 && config.min && area < config.min) { area = config.min; warnings.push("* ขนาดขั้นต่ำคิดที่ " + config.min.toFixed(2) + " ตร.หลา"); }
+            const p = config.price ? Math.round(area * config.price) : 0;
+            html += `<div class="summary-detail"><span>- ${wInput.toFixed(2)}x${hInput.toFixed(2)} ม.</span><span>${p.toLocaleString()} บ.</span></div>`;
+          }
+          warnings.forEach(w => { html += `<p class="summary-warning">${w}</p>`; });
         });
-        document.getElementById('summaryList').innerHTML = html;
-        document.getElementById('summaryGrandTotal').innerText = `รวมทั้งสิ้น: ${Math.round(grandTotal).toLocaleString()} บาท`;
-        document.getElementById('summaryModal').style.display = 'flex'; // แสดง Modal อยู่ตรงกลาง
+        html += `</div>`;
+      }
+      const gt = grandTotal();
+      html += `<div class="summary-grand">
+    <p class="summary-grand-label">รวมทั้งสิ้น</p>
+    <p class="summary-grand-value">${gt.toLocaleString()} <span class="summary-grand-unit">บาท</span></p>
+  </div>`;
+
+      document.getElementById("capture-area").innerHTML = html;
+      document.getElementById("summary-modal").classList.add("open");
+    }
+
+    function closeSummary() {
+      document.getElementById("summary-modal").classList.remove("open");
     }
 
     function saveImage() {
-        const area = document.getElementById('capture-area');
-        const btnIcon = document.querySelector('.btn-save-icon');
-        btnIcon.classList.add('hide-on-capture');
-        const originalScrollTop = area.scrollTop;
+      const area = document.getElementById("capture-area");
+      const modalBox = area.closest(".modal-box");
 
-        html2canvas(area, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: "#ffffff",
-            height: area.scrollHeight,
-            windowHeight: area.scrollHeight,
-            onclone: (clonedDoc) => {
-                const clonedArea = clonedDoc.getElementById('capture-area');
-                clonedArea.style.overflow = 'visible';
-                clonedArea.style.height = 'auto';
-                clonedArea.style.maxHeight = 'none';
-            }
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'ใบสรุปราคา.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            btnIcon.classList.remove('hide-on-capture');
-            area.scrollTop = originalScrollTop;
-        }).catch(err => {
-            alert("บันทึกไม่สำเร็จ");
-            btnIcon.classList.remove('hide-on-capture');
-        });
+      // Store original styles
+      const origAreaOverflow = area.style.overflow;
+      const origAreaMaxHeight = area.style.maxHeight;
+      const origBoxMaxHeight = modalBox.style.maxHeight;
+      const origBoxOverflow = modalBox.style.overflow;
+
+      // Temporarily expand to full height so html2canvas captures everything
+      area.style.overflow = "visible";
+      area.style.maxHeight = "none";
+      modalBox.style.maxHeight = "none";
+      modalBox.style.overflow = "visible";
+
+      // Hide entire discount section and show a clean text-only version for capture
+      const discountSection = area.querySelector(".discount-section");
+      let discountCapture = null;
+      const gt = grandTotal();
+      const percentAmt = discountPercent > 0 ? Math.round(gt * discountPercent / 100) : 0;
+      const totalDisc = percentAmt + discountAmount;
+      if (discountSection && totalDisc > 0) {
+        discountSection.style.display = "none";
+        discountCapture = document.createElement("div");
+        discountCapture.className = "discount-section";
+        discountCapture.style.textAlign = "center";
+        let captureLines = '';
+        if (discountPercent > 0) captureLines += `<p style="font-size:13px;font-weight:600;color:var(--success);margin-top:4px;">-${discountPercent}% = -${percentAmt.toLocaleString()} บาท</p>`;
+        if (discountAmount > 0) captureLines += `<p style="font-size:13px;font-weight:600;color:var(--success);margin-top:2px;">ส่วนลดเพิ่มเติม -${discountAmount.toLocaleString()} บาท</p>`;
+        discountCapture.innerHTML = `
+      <div class="discount-label" style="justify-content:center;">
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        ส่วนลด
+      </div>
+      ${captureLines}
+      <p style="font-size:16px;font-weight:700;color:var(--destructive);margin-top:4px;">รวมส่วนลด - ${totalDisc.toLocaleString()} บาท</p>
+    `;
+        discountSection.parentNode.insertBefore(discountCapture, discountSection.nextSibling);
+      } else if (discountSection) {
+        discountSection.style.display = "none";
+      }
+
+      html2canvas(area, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        height: area.scrollHeight,
+        windowHeight: area.scrollHeight,
+        scrollY: 0,
+        scrollX: 0,
+      }).then(canvas => {
+        // Restore original styles
+        area.style.overflow = origAreaOverflow;
+        area.style.maxHeight = origAreaMaxHeight;
+        modalBox.style.maxHeight = origBoxMaxHeight;
+        modalBox.style.overflow = origBoxOverflow;
+        if (discountCapture) discountCapture.remove();
+        if (discountSection) discountSection.style.display = "";
+
+        const dataUrl = canvas.toDataURL("image/png");
+        const fname = customerName.trim() ? "ใบสรุปราคา-" + customerName.trim() + ".png" : "ใบสรุปราคา.png";
+
+        // Try direct download first
+        const link = document.createElement("a");
+        link.download = fname;
+        link.href = dataUrl;
+
+        // Detect in-app browser
+        const ua = navigator.userAgent || "";
+        const isInApp = /FBAN|FBAV|FB_IAB|Instagram|Line\/|MicroMessenger|Snapchat|Twitter/i.test(ua);
+
+        if (!isInApp) {
+          // Normal browser - try direct download
+          link.click();
+        }
+
+        // Always show preview overlay (fallback for in-app, and also useful for normal browsers)
+        showImagePreview(dataUrl, fname);
+
+      }).catch(() => {
+        // Restore original styles on error too
+        area.style.overflow = origAreaOverflow;
+        area.style.maxHeight = origAreaMaxHeight;
+        modalBox.style.maxHeight = origBoxMaxHeight;
+        modalBox.style.overflow = origBoxOverflow;
+        if (discountCapture) discountCapture.remove();
+        if (discountSection) discountSection.style.display = "";
+        showToast("บันทึกไม่สำเร็จ", "error");
+      });
     }
 
-    function closeModal() { document.getElementById('summaryModal').style.display = 'none'; }
-    addItem();
-</script>
+    // ===== IMAGE PREVIEW =====
+    function showImagePreview(dataUrl, fname) {
+      const overlay = document.getElementById("img-preview-overlay");
+      const img = document.getElementById("img-preview-img");
+      const btnDl = document.getElementById("btn-preview-download");
+
+      img.src = dataUrl;
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+
+      // Setup download button
+      btnDl.onclick = function (e) {
+        e.stopPropagation();
+        const link = document.createElement("a");
+        link.download = fname;
+        link.href = dataUrl;
+        link.click();
+        showToast("กำลังดาวน์โหลด...", "success");
+      };
+    }
+
+    function closePreview(e) {
+      if (e && e.target !== e.currentTarget) return;
+      const overlay = document.getElementById("img-preview-overlay");
+      overlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    // ===== SECRET DISCOUNT =====
+    let discountUnlocked = false;
+    let discountAmount = 0;
+    let discountPercent = 0;
+
+    function handleSecretTap() {
+      if (!discountUnlocked) {
+        const pwd = prompt("กรุณาใส่รหัสผ่าน:");
+        if (pwd === "2662") {
+          discountUnlocked = true;
+          refreshSummaryDiscount();
+        } else if (pwd !== null) {
+          showToast("รหัสผ่านไม่ถูกต้อง", "error");
+        }
+      }
+    }
+
+    function refreshSummaryDiscount() {
+      const captureArea = document.getElementById("capture-area");
+      // Remove existing discount section if any
+      const existingDiscount = captureArea.querySelector(".discount-section");
+      if (existingDiscount) existingDiscount.remove();
+
+      // Remove existing grand section and rebuild
+      const existingGrand = captureArea.querySelector(".summary-grand");
+      if (!existingGrand) return;
+
+      const gt = grandTotal();
+
+      if (discountUnlocked) {
+        // Calculate total discount
+        const percentAmt = discountPercent > 0 ? Math.round(gt * discountPercent / 100) : 0;
+        const totalDiscount = percentAmt + discountAmount;
+
+        // Insert discount section before grand total
+        const discountDiv = document.createElement("div");
+        discountDiv.className = "discount-section";
+        discountDiv.innerHTML = `
+      <div class="discount-label">
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        ส่วนลด
+      </div>
+      <div class="discount-percent-row">
+        <button class="discount-percent-btn ${discountPercent === 3 ? 'active' : ''}" onclick="onDiscountPercent(3)">-3%</button>
+        <button class="discount-percent-btn ${discountPercent === 5 ? 'active' : ''}" onclick="onDiscountPercent(5)">-5%</button>
+        <button class="discount-percent-btn ${discountPercent === 10 ? 'active' : ''}" onclick="onDiscountPercent(10)">-10%</button>
+        <button class="discount-percent-btn ${discountPercent === 15 ? 'active' : ''}" onclick="onDiscountPercent(15)">-15%</button>
+      </div>
+      ${discountPercent > 0 ? '<p class="discount-result" style="margin-top:0;margin-bottom:8px;">-' + discountPercent + '% = -' + percentAmt.toLocaleString() + ' บาท</p>' : ''}
+      <p class="discount-or">หรือกรอกส่วนลดเพิ่มเติม (บาท)</p>
+      <div class="discount-input-row">
+        <input type="text" inputmode="decimal" class="discount-input" id="discount-input" placeholder="กรอกจำนวนส่วนลด (บาท)" value="${discountAmount > 0 ? discountAmount : ''}" oninput="onDiscountInput(this.value)">
+        <button class="btn-remove-discount" onclick="removeDiscount()" title="ลบส่วนลด">
+          <svg viewBox="0 0 24 24" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      ${totalDiscount > 0 ? '<p class="discount-result">รวมส่วนลด - ' + totalDiscount.toLocaleString() + ' บาท</p>' : ''}
+    `;
+        existingGrand.parentNode.insertBefore(discountDiv, existingGrand);
+
+        // Update grand total display
+        const finalTotal = Math.max(0, gt - totalDiscount);
+        if (totalDiscount > 0) {
+          existingGrand.innerHTML = `
+        <p class="summary-grand-label">รวมทั้งสิ้น</p>
+        <p class="summary-grand-original">${gt.toLocaleString()} บาท</p>
+        <p class="summary-grand-discount">ส่วนลด -${totalDiscount.toLocaleString()} บาท</p>
+        <p class="summary-grand-value">${finalTotal.toLocaleString()} <span class="summary-grand-unit">บาท</span></p>
+      `;
+        } else {
+          existingGrand.innerHTML = `
+        <p class="summary-grand-label">รวมทั้งสิ้น</p>
+        <p class="summary-grand-value">${gt.toLocaleString()} <span class="summary-grand-unit">บาท</span></p>
+      `;
+        }
+      } else {
+        existingGrand.innerHTML = `
+      <p class="summary-grand-label">รวมทั้งสิ้น</p>
+      <p class="summary-grand-value">${gt.toLocaleString()} <span class="summary-grand-unit">บาท</span></p>
+    `;
+      }
+    }
+
+    function onDiscountInput(value) {
+      // Allow only numbers
+      const cleaned = value.replace(/[^0-9]/g, '');
+      const input = document.getElementById("discount-input");
+      if (input) input.value = cleaned;
+      discountAmount = parseInt(cleaned) || 0;
+      refreshSummaryDiscount();
+      // Re-focus the input after refresh
+      setTimeout(() => {
+        const newInput = document.getElementById("discount-input");
+        if (newInput) { newInput.focus(); newInput.setSelectionRange(newInput.value.length, newInput.value.length); }
+      }, 0);
+    }
+
+    function onDiscountPercent(pct) {
+      discountPercent = discountPercent === pct ? 0 : pct;
+      refreshSummaryDiscount();
+    }
+
+    function removeDiscount() {
+      discountUnlocked = false;
+      discountAmount = 0;
+      discountPercent = 0;
+      refreshSummaryDiscount();
+    }
+
+    // ===== INIT =====
+    items.push(createItem());
+    render();
+  </script>
 </body>
+
 </html>
